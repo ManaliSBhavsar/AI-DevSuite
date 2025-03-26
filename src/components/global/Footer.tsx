@@ -1,9 +1,12 @@
 export default function Footer() {
     return (
-        <footer className="w-full bg-slate-900 text-gray-300 p-4 text-center shadow-md border-t border-slate-700">
-            <p className="text-sm">
-                © {new Date().getFullYear()} AI DevSuite. Built using Next.js &
-                OpenAI APIs.
+        <footer className="w-full bg-gradient-to-r from-slate-900 to-slate-800 text-white py-6 text-center shadow-md relative mt-10">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-teal-400 to-green-400"></div>
+
+            <p className="text-sm text-gray-300">
+                © {new Date().getFullYear()} <span className="font-semibold">AI DevSuite</span>. Built using 
+                <span className="text-blue-400 font-medium"> Next.js</span> & 
+                <span className="text-green-400 font-medium"> OpenAI APIs</span>.
             </p>
         </footer>
     );
