@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     const { code } = await req.json();
 
     const response = await openai.chat.completions.create({
-      model: "gpt-4",
+      model: "gpt-4o",
       messages: [{ role: "system", content: "Optimize and debug JavaScript/React code." },
                  { role: "user", content: code }],
     });
