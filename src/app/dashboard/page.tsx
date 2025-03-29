@@ -27,7 +27,7 @@ export default function Dashboard() {
 
         <div className="mt-12 grid gap-6">
           <Link
-            href="/tools/code-generator"
+            href="/tools/ui-generator"
             className="p-4 bg-slate-900 text-amber-100 rounded-lg flex justify-between items-center w-full hover:bg-slate-950 transition"
           >
             Frontend UI Code Generator
@@ -35,7 +35,7 @@ export default function Dashboard() {
           </Link>
 
           <Link
-            href="/tools/debug-optimizer"
+            href="/tools/code-debugger"
             className="p-4 bg-slate-900 text-amber-100 rounded-lg flex justify-between items-center w-full hover:bg-slate-950 transition"
           >
             AI Code Debugger
