@@ -3,7 +3,9 @@
 AI DevSuite is an AI-driven platform with three cutting-edge tools:
 
 **Generate-UI** - Frontend UI Code Generator (React + Tailwind CSS)
+
 **Debug-Code** - AI Code Debugger & Optimizer
+
 **Generate-Wireframe** - AI-Powered UI Layout Generator
 
 Developed with **Next.js 13 (App Router), TypeScript, Tailwind CSS, Zustand, NextAuth.js**, and AI APIs (**Gemini & Stability AI**), AI DevSuite automates frontend development with smart automation.
@@ -40,10 +42,9 @@ Developed with **Next.js 13 (App Router), TypeScript, Tailwind CSS, Zustand, Nex
 │   ├── api/debug-code (Serverless API for code debugging)
 │   ├── api/generate-wireframe (Serverless API for wireframes)
 │   ├── components (Reusable UI components)
-```
 │   ├── store (Global state management using Zustand store)
 │   ├── auth (NextAuth.js authentication configuration)
-│   ├── pages (Tool and Dashboard pages)
+│   ├── tools (Tool and Dashboard pages)
 ├── public
 ├── styles
 ├── package.json
