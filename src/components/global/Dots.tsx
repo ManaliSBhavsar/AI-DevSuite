@@ -2,18 +2,17 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-const NUM_DOTS = 50; // Number of floating dots
-const DOT_SIZE = 4;  // Fixed size for all dots
+const totalDots = 50;
+const dotSize = 4;
 
 const Dots = () => {
   const [dots, setDots] = useState<{ id: number; x: number; y: number }[]>([]);
 
   useEffect(() => {
-    // Generate dots on client-side only to avoid hydration errors
-    const generatedDots = Array.from({ length: NUM_DOTS }).map((_, i) => ({
+    const generatedDots = Array.from({ length: totalDots }).map((_, i) => ({
       id: i,
-      x: Math.random() * 100, // vw
-      y: Math.random() * 100, // vh
+      x: Math.random() * 100,
+      y: Math.random() * 100,
     }));
     setDots(generatedDots);
   }, []);
@@ -25,9 +24,9 @@ const Dots = () => {
           key={dot.id}
           className="absolute rounded-full opacity-75"
           style={{
-            backgroundColor: "#818CF8", // Light Indigo
-            width: DOT_SIZE,
-            height: DOT_SIZE,
+            backgroundColor: "#818CF8",
+            width: dotSize,
+            height: dotSize,
             left: `${dot.x}vw`,
             top: `${dot.y}vh`,
           }}

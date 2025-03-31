@@ -18,7 +18,7 @@ export default function LayoutGenerator() {
 
   const generateLayout = async () => {
     if (!description.trim()) {
-      setError("⚠️ Please enter a valid layout description.");
+      setError("Please enter a valid layout description.");
       return;
     }
 
@@ -42,11 +42,11 @@ export default function LayoutGenerator() {
       if (data.imageBase64) {
         setImageBase64(`data:image/png;base64,${data.imageBase64}`);
       } else {
-        setError("⚠️ No wireframe generated. Try a different prompt.");
+        setError("No wireframe generated. Try a different prompt.");
       }
     } catch (err) {
       console.error("Error generating wireframe:", err);
-      setError("❌ Failed to generate wireframe. Please try again.");
+      setError("Failed to generate wireframe. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -54,7 +54,6 @@ export default function LayoutGenerator() {
 
   const downloadWireframe = () => {
     if (!imageBase64) return;
-
     const link = document.createElement("a");
     link.href = imageBase64;
     link.download = "wireframe.png";
@@ -74,7 +73,7 @@ export default function LayoutGenerator() {
         <CardContent className="text-center">
           <Textarea
             className="text-amber-100 placeholder:text-sm placeholder:text-amber-100 min-h-24 max-h-24 overflow-y-auto custom-scrollbar"
-            placeholder="Describe the UI layout (e.g., 'A dashboard with a sidebar and a navbar')"
+            placeholder="Describe the UI layout (example: 'A dashboard with a sidebar and a navbar')"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />

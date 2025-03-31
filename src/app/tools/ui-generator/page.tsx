@@ -34,11 +34,11 @@ export default function UIGenerator() {
       if (data.code) {
         setGeneratedCode(data.code?.parts?.[0]?.text || "Error generating code");
       } else {
-        setGeneratedCode("⚠️ No code generated. Try a different prompt.");
+        setGeneratedCode("No code generated. Try a different prompt.");
       }
     } catch (error) {
       console.error("Error:", error);
-      setGeneratedCode("❌ Failed to generate code. Please try again.");
+      setGeneratedCode("Failed to generate code. Please try again.");
     }
 
     setLoading(false);
@@ -55,7 +55,7 @@ export default function UIGenerator() {
         <CardContent className="text-center">
         <Textarea
             className="text-amber-100 placeholder:text-sm placeholder:text-amber-100 min-h-24 max-h-24 overflow-y-auto custom-scrollbar"
-            placeholder="Describe your UI (e.g., 'A login form with email & password fields')"
+            placeholder="Describe your UI (example: 'A login form with email & password fields')"
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
           />
