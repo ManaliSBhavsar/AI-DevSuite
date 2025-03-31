@@ -98,7 +98,7 @@ export default function LayoutGenerator() {
               <Card className="mt-2 p-2 shadow-md max-h-32 overflow-y-auto custom-scrollbar">
                 <img src={imageBase64} alt="Generated UI Wireframe" className="w-full rounded-md" />
               </Card>
-              <Button className="px-8 py-6 text-md mt-4 text-slate-900 bg-yellow-400 hover:bg-yellow-500 cursor-pointer" onClick={downloadWireframe}>
+              <Button className="px-6 py-4 text-sm sm:text-md mt-8 text-slate-900 bg-yellow-400 hover:bg-yellow-500 cursor-pointer" onClick={downloadWireframe}>
                 Download Wireframe
               </Button>
             </div>
