@@ -7,7 +7,6 @@ import Dots from "./global/Dots";
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
-  // Show Header only on specific routes
   const showHeaderRoutes = [
     "/dashboard",
     "/tools/code-debugger",

@@ -1,10 +1,8 @@
-"use client";
-
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { authOptions } from "../lib/auth";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight, Loader2 } from "lucide-react";
-import { useEffect } from "react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
 const items = [
@@ -13,37 +11,23 @@ const items = [
   { name: "Wireframe Creator/Layout Generator", path: "/tools/layout-generator" },
 ];
 
-export default function Dashboard() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+export default async function Dashboard() {
+  const session = await getServerSession(authOptions);
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/login");
-    }
-  }, [status, router]);
-
-  if (status === "loading") {
-    return (
-      <div className="flex justify-center items-center">
-        <Loader2 className="w-6 h-6 animate-spin text-amber-100" />
-        <p className="ml-2 text-amber-100">Loading...</p>
-      </div>
-    );
+  if (!session) {
+    redirect("/login");
   }
 
   return (
     <div className="flex flex-col sm:flex-row justify-center items-end gap-2 sm:gap-4 px-4 py-8 sm:px-8">
-      {/* Welcome Section */}
       <div className="max-w-3xl w-full text-center">
         <h1 className="text-xl sm:text-3xl font-bold text-amber-100 drop-shadow-lg">
-          Welcome, {session?.user?.name}!
+          Welcome, {session.user?.name}!
         </h1>
         <p className="text-sm sm:text-lg text-amber-200 mt-2">
-            Explore Below AI-Powered Development Tools.
+          Explore Below AI-Powered Development Tools.
         </p>
 
-        {/* Tool Links */}
         <div className="mt-8 grid gap-4 sm:gap-6">
           {items.map((tool) => (
             <Link
@@ -59,7 +43,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Dashboard Image */}
       <div>
         <Image
           src="/dashboard.png"

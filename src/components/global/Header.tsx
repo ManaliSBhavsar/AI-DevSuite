@@ -27,18 +27,15 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 w-full bg-gradient-to-r from-slate-950 to-slate-900 text-white shadow-md py-3 sm:py-4 px-4 sm:px-6 z-50">
       <nav className="container mx-auto flex justify-between items-center">
-        {/* Logo */}
         <Link href="/" className="flex gap-2 items-center text-lg sm:text-2xl text-amber-100 hover:text-amber-200 font-semibold">
           <Image src="/logo.png" alt="AI DevSuite Logo" width={40} height={40} className="w-8 h-8 sm:w-10 sm:h-10" />
           AI DevSuite
         </Link>
 
-        {/* Hamburger Menu Button (Mobile) */}
         <button className="sm:hidden text-amber-100" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
 
-        {/* Navigation (Desktop) */}
         <div className="hidden sm:flex gap-6 items-center">
           {navItems.map((item) => (
             <Link

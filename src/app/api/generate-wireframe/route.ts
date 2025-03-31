@@ -11,8 +11,8 @@ export async function POST(req: NextRequest) {
 
     const formData = new FormData();
     formData.append("prompt", prompt);
-    formData.append("output_format", "webp"); // Ensure proper format
-    formData.append("style_preset", "line-art"); // Valid preset
+    formData.append("output_format", "webp");
+    formData.append("style_preset", "line-art");
 
     const apiResponse = await axios.post(
       "https://api.stability.ai/v2beta/stable-image/generate/core",

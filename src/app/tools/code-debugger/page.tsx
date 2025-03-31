@@ -25,19 +25,19 @@ export default function CodeDebugger() {
       const response = await fetch("/api/debug-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code }), // ✅ Fixed request body
+        body: JSON.stringify({ code }),
       });
 
       const data = await response.json();
 
       if (data.optimizedCode) {
-        setOptimizedCode(data.optimizedCode); // ✅ Fixed response handling
+        setOptimizedCode(data.optimizedCode);
       } else {
-        setOptimizedCode("⚠️ No optimized code generated. Try modifying your input.");
+        setOptimizedCode("No optimized code generated. Try modifying your input.");
       }
     } catch (error) {
       console.error("Error:", error);
-      setOptimizedCode("❌ Failed to optimize code. Please try again.");
+      setOptimizedCode("Failed to optimize code. Please try again.");
     }
 
     setLoading(false);
