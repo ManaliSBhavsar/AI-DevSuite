@@ -12,10 +12,13 @@ export default function UIGenerator() {
     prompt: string;
     setPrompt: (value: string) => void;
   };
+
   const [generatedCode, setGeneratedCode] = useState("");
   const [loading, setLoading] = useState(false);
 
   const generateUI = async () => {
+    if (!prompt.trim()) return;
+
     setLoading(true);
     setGeneratedCode("");
 
@@ -27,9 +30,15 @@ export default function UIGenerator() {
       });
 
       const data = await response.json();
-      setGeneratedCode(data.code || "No code generated.");
+
+      if (data.code) {
+        setGeneratedCode(data.code?.parts?.[0]?.text || "Error generating code");
+      } else {
+        setGeneratedCode("⚠️ No code generated. Try a different prompt.");
+      }
     } catch (error) {
       console.error("Error:", error);
+      setGeneratedCode("❌ Failed to generate code. Please try again.");
     }
 
     setLoading(false);
@@ -39,20 +48,27 @@ export default function UIGenerator() {
     <div className="flex flex-col items-center justify-center p-8">
       <Card className="w-full max-w-2xl shadow-lg rounded-2xl bg-slate-900 border border-amber-100">
         <CardHeader>
-          <CardTitle className="text-xl font-bold text-center text-amber-100">Frontend UI Code Generator</CardTitle>
+          <CardTitle className="text-xl font-bold text-center text-amber-100">
+            Frontend UI Code Generator
+          </CardTitle>
         </CardHeader>
         <CardContent className="text-center">
-          <Textarea className="text-amber-100 placeholder:text-amber-100"
+          <Textarea
+            className="text-amber-100 placeholder:text-amber-100"
             placeholder="Describe your UI (e.g., 'A login form with email & password fields')"
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
           />
-          <Button className="px-8 py-6 text-md mt-8 text-slate-900 bg-yellow-400 hover:bg-yellow-500 cursor-pointer" onClick={generateUI} disabled={loading}>
+          <Button
+            className="px-8 py-6 text-md mt-8 text-slate-900 bg-yellow-400 hover:bg-yellow-500 cursor-pointer"
+            onClick={generateUI}
+            disabled={loading}
+          >
             {loading ? "Generating..." : "Generate Code"}
           </Button>
 
-          {generatedCode && (<ScrollArea className="mt-4 max-h-64 p-2 bg-gray-800 text-white rounded-md">
-            {loading ? <Skeleton className="h-16 w-full" /> : <pre className="text-sm">{generatedCode}</pre>}
+          {generatedCode &&(<ScrollArea className="text-left mt-4 h-32 max-h-64 p-2 bg-gray-800 text-white rounded-md overflow-auto">
+            {loading ? <Skeleton className="h-12 w-full" /> : <pre className="text-sm whitespace-pre-wrap">{generatedCode.replace(/```jsx|```/g, "").trim()}</pre>}
           </ScrollArea>)}
         </CardContent>
       </Card>
