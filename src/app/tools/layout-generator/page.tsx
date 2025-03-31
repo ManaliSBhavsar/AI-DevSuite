@@ -4,7 +4,6 @@ import toolStore from "@/app/store/toolStore";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 
@@ -13,7 +12,7 @@ export default function LayoutGenerator() {
     description: string;
     setDescription: (value: string) => void;
   };
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageBase64, setImageBase64] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -22,31 +21,46 @@ export default function LayoutGenerator() {
       setError("⚠️ Please enter a valid layout description.");
       return;
     }
-
+  
     setLoading(true);
-    setImageUrl("");
+    setImageBase64("");
     setError("");
-
+  
     try {
       const response = await fetch("/api/generate-wireframe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: description }),
       });
-
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
       const data = await response.json();
-
-      if (data.imageUrl) {
-        setImageUrl(data.imageUrl);
+  
+      if (data.imageBase64) {
+        setImageBase64(`data:image/png;base64,${data.imageBase64}`);
       } else {
         setError("⚠️ No wireframe generated. Try a different prompt.");
       }
     } catch (err) {
       console.error("Error generating wireframe:", err);
       setError("❌ Failed to generate wireframe. Please try again.");
+    } finally {
+      setLoading(false);
     }
+  };  
 
-    setLoading(false);
+  const downloadWireframe = () => {
+    if (!imageBase64) return;
+
+    const link = document.createElement("a");
+    link.href = imageBase64;
+    link.download = "wireframe.png";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -67,27 +81,24 @@ export default function LayoutGenerator() {
           {error && <p className="mt-2 text-red-500 text-sm">{error}</p>}
 
           <Button
-            className="px-8 py-6 text-md mt-4 text-slate-900 bg-yellow-400 hover:bg-yellow-500 cursor-pointer"
+            className="px-8 py-6 text-md mt-4 mb-4 text-slate-900 bg-yellow-400 hover:bg-yellow-500 cursor-pointer"
             onClick={generateLayout}
             disabled={loading}
           >
             {loading ? "Generating..." : "Generate Wireframe"}
           </Button>
 
-          {imageUrl && <Separator className="my-4" />}
+          {imageBase64 && <Separator className="my-4" />}
 
           {loading && <Skeleton className="h-64 w-full" />}
           
-          {imageUrl && (
+          {imageBase64 && (
             <div className="mt-4">
-              <h2 className="text-lg font-semibold text-center">Generated Wireframe:</h2>
+              <h2 className="text-lg font-semibold text-center text-amber-100">Generated Wireframe:</h2>
               <Card className="mt-2 p-2 shadow-md">
-                <img src={imageUrl} alt="Generated UI Wireframe" className="w-full rounded-md" />
+                <img src={imageBase64} alt="Generated UI Wireframe" className="w-full rounded-md" />
               </Card>
-              <Button
-                className="mt-2 w-full"
-                onClick={() => window.open(imageUrl, "_blank")}
-              >
+              <Button className="px-8 py-6 text-md mt-4 text-slate-900 bg-yellow-400 hover:bg-yellow-500 cursor-pointer" onClick={downloadWireframe}>
                 Download Wireframe
               </Button>
             </div>

@@ -25,13 +25,13 @@ export default function CodeDebugger() {
       const response = await fetch("/api/debug-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: code }),
+        body: JSON.stringify({ code }), // ✅ Fixed request body
       });
 
       const data = await response.json();
 
-      if (data.code) {
-        setOptimizedCode(data.code);
+      if (data.optimizedCode) {
+        setOptimizedCode(data.optimizedCode); // ✅ Fixed response handling
       } else {
         setOptimizedCode("⚠️ No optimized code generated. Try modifying your input.");
       }
@@ -66,9 +66,11 @@ export default function CodeDebugger() {
             {loading ? "Optimizing..." : "Optimize Code"}
           </Button>
 
-          <ScrollArea className="mt-4 max-h-64 p-2 bg-gray-800 text-white rounded-md">
-            {loading ? <Skeleton className="h-16 w-full" /> : <pre className="text-sm">{optimizedCode}</pre>}
-          </ScrollArea>
+          {optimizedCode && (
+            <ScrollArea className="text-left mt-4 max-h-64 p-2 bg-gray-800 text-white rounded-md">
+              {loading ? <Skeleton className="h-16 w-full" /> : <pre className="text-sm">{optimizedCode.replace(/```jsx|```/g, "").trim()}</pre>}
+            </ScrollArea>
+          )}
         </CardContent>
       </Card>
     </div>

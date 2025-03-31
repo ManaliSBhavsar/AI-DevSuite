@@ -7,42 +7,46 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Code input is required." }, { status: 400 });
     }
 
-    const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+    const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY; // Secure API key usage
     if (!API_KEY) {
       return NextResponse.json({ error: "API key is missing." }, { status: 500 });
     }
 
-    console.log("Using API Key:", API_KEY); // Log API key (REMOVE THIS IN PRODUCTION)
-
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.NEXT_PUBLIC_GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${API_KEY}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           contents: [
             {
-              parts: [{ text: prompt }], // Ensure the structure matches Google's API
+              parts: [
+                {
+                  text: `Optimize the following React or JavaScript code and return only the code:\n\n${code}`,
+                },
+              ],
             },
           ],
         }),
       }
     );
-      
 
     const data = await response.json();
-    console.log("API Response:", data); // Log full response
+    console.log("API Response:", data); // Log for debugging
 
-    if (!data || !data.candidates || data.candidates.length === 0) {
+    if (!data?.candidates || data.candidates.length === 0) {
       return NextResponse.json({ error: "Failed to get a response from Gemini API.", details: data }, { status: 500 });
     }
 
-    return NextResponse.json({ optimizedCode: data.candidates[0].content });
+    // Extracting optimized code safely
+    const optimizedCode = data.candidates[0]?.content?.parts?.[0]?.text?.trim();
+
+    return NextResponse.json({ optimizedCode: optimizedCode || "No optimized code returned." });
   } catch (error) {
     console.error("Error optimizing code:", error);
-    return NextResponse.json({ 
-      error: "Failed to optimize code.", 
-      details: error instanceof Error ? error.message : "Unknown error" 
-    }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to optimize code.", details: error instanceof Error ? error.message : "Unknown error" },
+      { status: 500 }
+    );
   }
 }
