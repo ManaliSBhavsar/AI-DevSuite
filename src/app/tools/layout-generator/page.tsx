@@ -21,24 +21,24 @@ export default function LayoutGenerator() {
       setError("⚠️ Please enter a valid layout description.");
       return;
     }
-  
+
     setLoading(true);
     setImageBase64("");
     setError("");
-  
+
     try {
       const response = await fetch("/api/generate-wireframe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: description }),
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-  
+
       const data = await response.json();
-  
+
       if (data.imageBase64) {
         setImageBase64(`data:image/png;base64,${data.imageBase64}`);
       } else {
@@ -50,7 +50,7 @@ export default function LayoutGenerator() {
     } finally {
       setLoading(false);
     }
-  };  
+  };
 
   const downloadWireframe = () => {
     if (!imageBase64) return;
@@ -64,16 +64,16 @@ export default function LayoutGenerator() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-8">
+    <div className="flex flex-col items-center justify-center p-2 sm:p-8">
       <Card className="w-full max-w-2xl shadow-lg rounded-2xl bg-slate-900 border border-amber-100">
         <CardHeader>
-          <CardTitle className="text-xl font-bold text-center text-amber-100">
+          <CardTitle className="text-md sm:text-xl font-bold text-center text-amber-100">
             AI-Powered UI Layout Generator
           </CardTitle>
         </CardHeader>
         <CardContent className="text-center">
           <Textarea
-            className="text-amber-100 placeholder:text-amber-100"
+            className="text-amber-100 placeholder:text-sm placeholder:text-amber-100 min-h-24 max-h-24 overflow-y-auto custom-scrollbar"
             placeholder="Describe the UI layout (e.g., 'A dashboard with a sidebar and a navbar')"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -81,7 +81,7 @@ export default function LayoutGenerator() {
           {error && <p className="mt-2 text-red-500 text-sm">{error}</p>}
 
           <Button
-            className="px-8 py-6 text-md mt-4 mb-4 text-slate-900 bg-yellow-400 hover:bg-yellow-500 cursor-pointer"
+            className="px-6 py-4 text-sm sm:text-md mt-8 text-slate-900 bg-yellow-400 hover:bg-yellow-500 cursor-pointer"
             onClick={generateLayout}
             disabled={loading}
           >
@@ -91,11 +91,11 @@ export default function LayoutGenerator() {
           {imageBase64 && <Separator className="my-4" />}
 
           {loading && <Skeleton className="h-64 w-full" />}
-          
+
           {imageBase64 && (
             <div className="mt-4">
               <h2 className="text-lg font-semibold text-center text-amber-100">Generated Wireframe:</h2>
-              <Card className="mt-2 p-2 shadow-md">
+              <Card className="mt-2 p-2 shadow-md max-h-32 overflow-y-auto custom-scrollbar">
                 <img src={imageBase64} alt="Generated UI Wireframe" className="w-full rounded-md" />
               </Card>
               <Button className="px-8 py-6 text-md mt-4 text-slate-900 bg-yellow-400 hover:bg-yellow-500 cursor-pointer" onClick={downloadWireframe}>

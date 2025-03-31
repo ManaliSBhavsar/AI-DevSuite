@@ -44,22 +44,22 @@ export default function CodeDebugger() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-8">
+    <div className="flex flex-col items-center justify-center p-2 sm:p-8">
       <Card className="w-full max-w-2xl shadow-lg rounded-2xl bg-slate-900 border border-amber-100">
         <CardHeader>
-          <CardTitle className="text-xl font-bold text-center text-amber-100">
+          <CardTitle className="text-md sm:text-xl font-bold text-center text-amber-100">
             AI Code Debugger & Optimizer
           </CardTitle>
         </CardHeader>
         <CardContent className="text-center">
           <Textarea
-            className="text-amber-100 placeholder:text-amber-100"
+            className="text-amber-100 placeholder:text-sm placeholder:text-amber-100 min-h-24 max-h-24 overflow-y-auto custom-scrollbar"
             placeholder="Paste your code here..."
             value={code}
             onChange={(e) => setCode(e.target.value)}
           />
           <Button
-            className="px-8 py-6 text-md mt-8 text-slate-900 bg-yellow-400 hover:bg-yellow-500 cursor-pointer"
+            className="px-6 py-4 text-sm sm:text-md mt-8 text-slate-900 bg-yellow-400 hover:bg-yellow-500 cursor-pointer"
             onClick={debugCode}
             disabled={loading}
           >
@@ -67,8 +67,8 @@ export default function CodeDebugger() {
           </Button>
 
           {optimizedCode && (
-            <ScrollArea className="text-left mt-4 max-h-64 p-2 bg-gray-800 text-white rounded-md">
-              {loading ? <Skeleton className="h-16 w-full" /> : <pre className="text-sm">{optimizedCode.replace(/```jsx|```/g, "").trim()}</pre>}
+            <ScrollArea className="text-left mt-4 h-32 max-h-64 p-2 bg-gray-800 text-white rounded-md overflow-auto">
+              {loading ? <Skeleton className="h-16 w-full" /> : <pre className="text-xs sm:text-sm whitespace-pre-wrap">{optimizedCode.replace(/```jsx|```/g, "").trim()}</pre>}
             </ScrollArea>
           )}
         </CardContent>

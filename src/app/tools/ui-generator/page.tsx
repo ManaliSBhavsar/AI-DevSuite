@@ -45,22 +45,22 @@ export default function UIGenerator() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-8">
+    <div className="flex flex-col items-center justify-center p-2 sm:p-8">
       <Card className="w-full max-w-2xl shadow-lg rounded-2xl bg-slate-900 border border-amber-100">
         <CardHeader>
-          <CardTitle className="text-xl font-bold text-center text-amber-100">
+          <CardTitle className="text-md sm:text-xl font-bold text-center text-amber-100">
             Frontend UI Code Generator
           </CardTitle>
         </CardHeader>
         <CardContent className="text-center">
-          <Textarea
-            className="text-amber-100 placeholder:text-amber-100"
+        <Textarea
+            className="text-amber-100 placeholder:text-sm placeholder:text-amber-100 min-h-24 max-h-24 overflow-y-auto custom-scrollbar"
             placeholder="Describe your UI (e.g., 'A login form with email & password fields')"
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
           />
           <Button
-            className="px-8 py-6 text-md mt-8 text-slate-900 bg-yellow-400 hover:bg-yellow-500 cursor-pointer"
+            className="px-6 py-4 text-sm sm:text-md mt-8 text-slate-900 bg-yellow-400 hover:bg-yellow-500 cursor-pointer"
             onClick={generateUI}
             disabled={loading}
           >
@@ -68,7 +68,7 @@ export default function UIGenerator() {
           </Button>
 
           {generatedCode &&(<ScrollArea className="text-left mt-4 h-32 max-h-64 p-2 bg-gray-800 text-white rounded-md overflow-auto">
-            {loading ? <Skeleton className="h-12 w-full" /> : <pre className="text-sm whitespace-pre-wrap">{generatedCode.replace(/```jsx|```/g, "").trim()}</pre>}
+            {loading ? <Skeleton className="h-12 w-full" /> : <pre className="text-xs sm:text-sm whitespace-pre-wrap">{generatedCode.replace(/```jsx|```/g, "").trim()}</pre>}
           </ScrollArea>)}
         </CardContent>
       </Card>
