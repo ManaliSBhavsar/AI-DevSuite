@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { Menu, X } from "lucide-react";
+import Image from "next/image";
 
 const navItems = [
   { name: "UI Code Generator", path: "/tools/ui-generator" },
@@ -27,8 +28,9 @@ export default function Header() {
     <header className="fixed top-0 left-0 w-full bg-gradient-to-r from-slate-950 to-slate-900 text-white shadow-md py-3 sm:py-4 px-4 sm:px-6 z-50">
       <nav className="container mx-auto flex justify-between items-center">
         {/* Logo */}
-        <Link href="/" className="text-lg sm:text-2xl text-amber-100 hover:text-amber-200 font-semibold">
-          AI DevSuite 🚀
+        <Link href="/" className="flex gap-2 items-center text-lg sm:text-2xl text-amber-100 hover:text-amber-200 font-semibold">
+          <Image src="/logo.png" alt="AI DevSuite Logo" width={40} height={40} className="w-8 h-8 sm:w-10 sm:h-10" />
+          AI DevSuite
         </Link>
 
         {/* Hamburger Menu Button (Mobile) */}
